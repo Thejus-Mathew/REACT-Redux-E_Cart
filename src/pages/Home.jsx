@@ -29,14 +29,14 @@ function Home() {
         <span className='fs-3'>Loading...</span>
       </div>
       :<Row className='m-3'>
-          {products?.length>0&&products.map((product,index)=>(
+          {products?.length>0&&products?.map((product,index)=>(
               <Col key={index} className='my-3'>
                 <Card className='rounded' style={{ width: '20rem'}}>
-                    <Link to={`/view/${product.id}`}>
-                      <Card.Img variant="top" style={{aspectRatio:"286/180",marginBottom:"10px"}} src={product.thumbnail} />
+                    <Link to={`/view/${product?.id}`}>
+                      <Card.Img variant="top" style={{aspectRatio:"286/180",marginBottom:"10px"}} src={product?.thumbnail} />
                     </Link>
                     <Card.Body>
-                        <Card.Title>{product.title.slice(0,20)}</Card.Title>
+                        <Card.Title>{product?.title.slice(0,20)}</Card.Title>
                         <div className="buttons d-flex justify-content-between mt-4">
                             <Button variant="danger rounded px-3" onClick={()=>(dispatch(addToWishlist(product)))}><i className="fa-solid fa-heart"></i></Button>
                             <Button variant="info rounded px-3"><i className="fa-solid fa-cart-shopping"></i></Button>
