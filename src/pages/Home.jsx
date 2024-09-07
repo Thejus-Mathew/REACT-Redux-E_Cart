@@ -29,7 +29,7 @@ function Home() {
         <span className='fs-3'>Loading...</span>
       </div>
       :<Row className='m-3'>
-          {products.length>0&&products.map((product,index)=>(
+          {products?.length>0&&products.map((product,index)=>(
               <Col key={index} className='my-3'>
                 <Card className='rounded' style={{ width: '20rem'}}>
                     <Link to={`/view/${product.id}`}>
