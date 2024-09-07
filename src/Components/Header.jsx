@@ -8,7 +8,7 @@ function Header() {
   const wishlist = useSelector(state=>state.wishlistSlice)
 
   useEffect(()=>{
-    setWishlistCount(JSON.parse(localStorage.getItem("wishlist")).length)
+    setWishlistCount(JSON.parse(localStorage.getItem("wishlist"))?.length)
   },[wishlist])  
 
   return (
