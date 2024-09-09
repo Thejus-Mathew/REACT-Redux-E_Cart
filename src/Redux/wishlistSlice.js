@@ -9,12 +9,10 @@ const wishlistSlice = createSlice({
     reducers:{
         addToWishlist:(state,action) =>{
             state.wishlist.push(action.payload)
-            localStorage.setItem("wishlist",JSON.stringify(state.wishlist))
         },
         removeFromWishlist:(state,action) =>{
-            wishlist = state.wishlist.filter(item => item.id != action.payload)
-            localStorage.setItem("wishlist",JSON.stringify(wishlist))
-            return state.wishlist.filter(item => item.id != action.payload)
+            state.wishlist = state.wishlist.filter(item => item.id != action.payload)
+            // return state.wishlist.filter(item => item.id != action.payload)
         }
     }
 })

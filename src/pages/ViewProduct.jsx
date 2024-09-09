@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Spinner } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { addToWishlist, removeFromWishlist } from '../Redux/wishlistSlice'
 
 
 function ViewProduct() {
@@ -9,12 +11,22 @@ function ViewProduct() {
   const[product,setProduct] = useState({})
   const products = JSON.parse(localStorage.getItem("products"))
 
-
+  const {wishlist} = useSelector(state=>state.wishlistSlice)
+  const dispatch = useDispatch()
 
 
   useEffect(()=>{
     setProduct(products.find(item => item.id==id))
   },[])
+
+  const handleWishlist = (product) =>{
+    const existingProduct = wishlist.find(item=>item.id==product.id)
+    if(existingProduct) {
+      dispatch(removeFromWishlist(product.id))
+    }else{
+      dispatch(addToWishlist(product))
+    }
+  }
 
 
   return (
@@ -30,8 +42,8 @@ function ViewProduct() {
             <p className='fs-5'>{product?.description}</p>
             <h4>Price: ${product?.price}</h4>
             <div className="buttons mt-5 d-flex justify-content-between">
-              <Button variant="danger fs-6 rounded"><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>
-              <Button variant="info fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>
+            {(wishlist.find(item=>item.id==product.id))?<Button variant="danger fs-6 rounded" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>:<Button variant="primary fs-6 rounded" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>}
+              <Button variant="primary fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>
             </div>
           </div>
         </div>

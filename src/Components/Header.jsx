@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 
 function Header() {
   const[wishlistCount,setWishlistCount] = useState(0)
-  const wishlist = useSelector(state=>state.wishlistSlice)
+  const {wishlist} = useSelector(state=>state.wishlistSlice)
 
   useEffect(()=>{
-    setWishlistCount(JSON.parse(localStorage.getItem("wishlist"))?.length)
+    setWishlistCount(wishlist.length)
   },[wishlist])  
 
   return (

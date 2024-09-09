@@ -3,7 +3,7 @@ import { Button, Card, Col, Row, Spinner } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchProductData } from '../Redux/productSlice'
-import { addToWishlist } from '../Redux/wishlistSlice'
+import { addToWishlist, removeFromWishlist } from '../Redux/wishlistSlice'
 
 
 function Home() {
@@ -13,10 +13,20 @@ function Home() {
   const dispatch = useDispatch()
 
   const{loading,error,products} = useSelector((state)=>state.productSlice)  
+  const{wishlist} = useSelector((state)=>state.wishlistSlice)
 
   useEffect(()=>{
     dispatch(fetchProductData())
   },[])
+
+  const handleWishlist = (product) =>{
+    const existingProduct = wishlist.find(item=>item.id==product.id)
+    if(existingProduct) {
+      dispatch(removeFromWishlist(product.id))
+    }else{
+      dispatch(addToWishlist(product))
+    }
+  }
 
   
 
@@ -38,8 +48,8 @@ function Home() {
                     <Card.Body>
                         <Card.Title>{product?.title.slice(0,20)}</Card.Title>
                         <div className="buttons d-flex justify-content-between mt-4">
-                            <Button variant="danger rounded px-3" onClick={()=>(dispatch(addToWishlist(product)))}><i className="fa-solid fa-heart"></i></Button>
-                            <Button variant="info rounded px-3"><i className="fa-solid fa-cart-shopping"></i></Button>
+                          {(wishlist.find(item=>item.id==product.id))?<Button variant="danger rounded px-3" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart"></i></Button>:<Button variant="primary rounded px-3" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart"></i></Button>}
+                          <Button variant="primary rounded px-3"><i className="fa-solid fa-cart-shopping"></i></Button>
                         </div>
                     </Card.Body>
                 </Card>
