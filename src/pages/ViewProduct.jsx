@@ -3,7 +3,7 @@ import { Button, Spinner } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addToWishlist, removeFromWishlist } from '../Redux/wishlistSlice'
-
+import { addToCart, removeFromCart } from '../Redux/cartSlice'
 
 function ViewProduct() {
 
@@ -12,6 +12,7 @@ function ViewProduct() {
   const products = JSON.parse(localStorage.getItem("products"))
 
   const {wishlist} = useSelector(state=>state.wishlistSlice)
+  const cart = useSelector(state=>state.cartSlice)
   const dispatch = useDispatch()
 
 
@@ -25,6 +26,16 @@ function ViewProduct() {
       dispatch(removeFromWishlist(product.id))
     }else{
       dispatch(addToWishlist(product))
+    }
+  }
+
+  const handleCart = (product) =>{
+    const existingCartProduct = cart.find(item=>item.id==product.id)
+    if(existingCartProduct) {
+      console.log("removing");
+      dispatch(removeFromCart(product.id))
+    }else{
+      dispatch(addToCart(product))
     }
   }
 
@@ -43,7 +54,7 @@ function ViewProduct() {
             <h4>Price: ${product?.price}</h4>
             <div className="buttons mt-5 d-flex justify-content-between">
             {(wishlist.find(item=>item.id==product.id))?<Button variant="danger fs-6 rounded" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>:<Button variant="primary fs-6 rounded" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>}
-              <Button variant="primary fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>
+            {(cart.find(item=>item.id==product.id))?<Button onClick={()=>handleCart(product)} variant="info fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>:<Button onClick={()=>handleCart(product)} variant="primary fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>}
             </div>
           </div>
         </div>

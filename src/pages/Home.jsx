@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchProductData } from '../Redux/productSlice'
 import { addToWishlist, removeFromWishlist } from '../Redux/wishlistSlice'
+import { addToCart, removeFromCart } from '../Redux/cartSlice'
 
 
 function Home() {
@@ -14,6 +15,7 @@ function Home() {
 
   const{loading,error,products} = useSelector((state)=>state.productSlice)  
   const{wishlist} = useSelector((state)=>state.wishlistSlice)
+  const cart = useSelector(state=>state.cartSlice)
 
   useEffect(()=>{
     dispatch(fetchProductData())
@@ -25,6 +27,15 @@ function Home() {
       dispatch(removeFromWishlist(product.id))
     }else{
       dispatch(addToWishlist(product))
+    }
+  }
+  const handleCart = (product) =>{
+    const existingCartProduct = cart.find(item=>item.id==product.id)
+    if(existingCartProduct) {
+      console.log("removing");
+      dispatch(removeFromCart(product.id))
+    }else{
+      dispatch(addToCart(product))
     }
   }
 
@@ -49,7 +60,7 @@ function Home() {
                         <Card.Title>{product?.title.slice(0,20)}</Card.Title>
                         <div className="buttons d-flex justify-content-between mt-4">
                           {(wishlist.find(item=>item.id==product.id))?<Button variant="danger rounded px-3" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart"></i></Button>:<Button variant="primary rounded px-3" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart"></i></Button>}
-                          <Button variant="primary rounded px-3"><i className="fa-solid fa-cart-shopping"></i></Button>
+                          {(cart.find(item=>item.id==product.id))?<Button variant="info rounded px-3" onClick={()=>handleCart(product)}><i className="fa-solid fa-cart-shopping"></i></Button>:<Button variant="primary rounded px-3" onClick={()=>handleCart(product)}><i className="fa-solid fa-cart-shopping"></i></Button>}
                         </div>
                     </Card.Body>
                 </Card>
