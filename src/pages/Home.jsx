@@ -29,16 +29,6 @@ function Home() {
       dispatch(addToWishlist(product))
     }
   }
-  const handleCart = (product) =>{
-    const existingCartProduct = cart.find(item=>item.id==product.id)
-    if(existingCartProduct) {
-      console.log("removing");
-      dispatch(removeFromCart(product.id))
-    }else{
-      dispatch(addToCart(product))
-    }
-  }
-
   
 
   return (
@@ -60,7 +50,7 @@ function Home() {
                         <Card.Title>{product?.title.slice(0,20)}</Card.Title>
                         <div className="buttons d-flex justify-content-between mt-4">
                           {(wishlist.find(item=>item.id==product.id))?<Button variant="danger rounded px-3" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart"></i></Button>:<Button variant="primary rounded px-3" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart"></i></Button>}
-                          {(cart.find(item=>item.id==product.id))?<Button variant="info rounded px-3" onClick={()=>handleCart(product)}><i className="fa-solid fa-cart-shopping"></i></Button>:<Button variant="primary rounded px-3" onClick={()=>handleCart(product)}><i className="fa-solid fa-cart-shopping"></i></Button>}
+                          {(cart.find(item=>item.id==product.id))?<Button variant="info rounded px-3" onClick={()=>dispatch(addToCart(product))}><i className="fa-solid fa-cart-shopping"></i></Button>:<Button variant="primary rounded px-3" onClick={()=>dispatch(addToCart(product))}><i className="fa-solid fa-cart-shopping"></i></Button>}
                         </div>
                     </Card.Body>
                 </Card>

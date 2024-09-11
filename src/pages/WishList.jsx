@@ -11,15 +11,11 @@ function WishList() {
   const {wishlist} = useSelector(state=>state.wishlistSlice)
   const cart = useSelector(state=>state.cartSlice)
 
-  const handleCart = (product) =>{
-    const existingCartProduct = cart.find(item=>item.id==product.id)
-    if(existingCartProduct) {
-      console.log("removing");
-      dispatch(removeFromCart(product.id))
-    }else{
-      dispatch(addToCart(product))
-    }
+  const handleCart = (product)=>{
+    dispatch(addToCart(product))
+    dispatch(removeFromWishlist(product?.id))
   }
+
 
   return (
     <>

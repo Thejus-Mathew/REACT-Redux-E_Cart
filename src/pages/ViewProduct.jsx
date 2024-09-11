@@ -29,16 +29,6 @@ function ViewProduct() {
     }
   }
 
-  const handleCart = (product) =>{
-    const existingCartProduct = cart.find(item=>item.id==product.id)
-    if(existingCartProduct) {
-      console.log("removing");
-      dispatch(removeFromCart(product.id))
-    }else{
-      dispatch(addToCart(product))
-    }
-  }
-
 
   return (
     <>
@@ -54,7 +44,7 @@ function ViewProduct() {
             <h4>Price: ${product?.price}</h4>
             <div className="buttons mt-5 d-flex justify-content-between">
             {(wishlist.find(item=>item.id==product.id))?<Button variant="danger fs-6 rounded" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>:<Button variant="primary fs-6 rounded" onClick={()=>handleWishlist(product)}><i className="fa-solid fa-heart">&nbsp;&nbsp; W i s h l i s t</i></Button>}
-            {(cart.find(item=>item.id==product.id))?<Button onClick={()=>handleCart(product)} variant="info fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>:<Button onClick={()=>handleCart(product)} variant="primary fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>}
+            {(cart.find(item=>item.id==product.id))?<Button onClick={()=>dispatch(addToCart(product))} variant="info fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>:<Button onClick={()=>dispatch(addToCart(product))} variant="primary fs-6 rounded"><i className="fa-solid fa-cart-shopping">&nbsp;&nbsp; c a r t </i></Button>}
             </div>
           </div>
         </div>
